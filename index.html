@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<script src="/js/jquery-2.2.4.min.js"></script>
+	<title>documentwrite</title>
+</head>
+
+<body>
+	<h1>MutationObserver DEMO | タグの内容変化を監視</h1>
+	<p>テキストを変更すると背景色が変化します。</p>
+	<div id="target">あああああああああああああ<br>
+		かかっかかかっかかかかか<br>
+		ささささささささささ<br>
+		たたたたたたたたたた<br>
+		なななななななな<br>
+		ははははははははは<br>
+		やややややややや<br>
+		<button id="bt01">ボタンその１</button>
+		<ul class="add"></ul>
+	</div>
+	<script>
+		var add_count = 0;
+		$(function () {
+			$("#bt01").on("click", function () {
+				add_count++;
+				$(".add").append('<li>追加しました' + add_count + '</li>');
+			})
+		});
+
+
+		// 対象とするノードを取得
+		const target = document.getElementById('target');
+
+		// オブザーバインスタンスを作成
+		const observer = new MutationObserver((mutations) => {
+			mutations.forEach((mutation) => {
+				console.log(mutation.target);
+				target.style.background = '#ff0';
+			});
+		});
+
+		// オブザーバの設定
+		const config = {
+			characterData: true,
+			subtree: true,
+			childList: true,
+		};
+
+		// 対象ノードとオブザーバの設定を渡す
+		observer.observe(target, config);
+	</script>
+</body>
+
+</html>
